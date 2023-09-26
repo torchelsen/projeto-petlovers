@@ -1,6 +1,3 @@
-Claro, vou ajudá-lo a criar um `README.md` para o seu projeto de backend em C# descrevendo os comandos necessários para criar os componentes e executar o projeto, incluindo a configuração do banco de dados. Aqui está o conteúdo do arquivo `README.md`:
-
-```markdown
 # Projeto Backend em C#
 
 Este é um projeto backend em C# que utiliza o framework ASP.NET Core. Ele fornece uma estrutura básica para criar um serviço web API.
