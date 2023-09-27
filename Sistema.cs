@@ -3,14 +3,43 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace PetLovers
 {
     class Cliente
     {
         public int id { get; set; }
-        public string? nome { get; set; }
-        public string? email { get; set; }
+        public string nome { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+
+		// Construtor do cliente
+		public Cliente(int id, string nome, string email, string password)
+		{
+			this.id = id;
+			this.nome = nome;
+			this.email = email;
+			this.password = GerarHash(password);
+		}
+
+		// metodo para gerar a hash do password
+		public static string GerarHash(string password)
+		{
+			byte[] passwordEmBytes = System.Text.Encoding.UTF8.GetBytes(password);
+			byte[] hashEmBytes = SHA256.Create().ComputeHash(passwordEmBytes);
+			string hashEmString = BitConverter.ToString(hashEmBytes);
+			hashEmString = hashEmString.Replace("-", String.Empty);
+			return hashEmString;
+		}
+
+		public string GetEmail()
+		{
+			return email;
+		}
+		
+		
     }
     class PetShop
     {
@@ -60,9 +89,17 @@ namespace PetLovers
 			});
 
             // cadastrar cliente
-			app.MapPost("/cliente", (BasePetLovers basePetLovers, Cliente cliente) =>
+			app.MapPost("/cliente", (BasePetLovers basePetLovers, Cliente novoCliente) =>
 			{
-				basePetLovers.Clientes.Add(cliente);
+				foreach(var cliente in basePetLovers.Clientes)
+				{
+					//lanca erro caso email ja esteja em uso
+					if(cliente.GetEmail() == novoCliente.GetEmail())
+					{
+						throw new Exception($"Email '{novoCliente.GetEmail()}' já está em uso.");
+					}
+				}
+				basePetLovers.Clientes.Add(novoCliente);
 				basePetLovers.SaveChanges();
 				return "cliente adicionado";
 			});
@@ -71,8 +108,17 @@ namespace PetLovers
 			app.MapPut("/cliente/{id}", (BasePetLovers basePetLovers, Cliente clienteAtualizado, int id) =>
 			{
 				var cliente = basePetLovers.Clientes.Find(id);
+				// foreach(var cliente in basePetLovers.Clientes)
+				// {
+				// 	//lanca erro caso email ja esteja em uso
+				// 	if(cliente.GetEmail() == clienteAtualizado.GetEmail())
+				// 	{
+				// 		throw new Exception($"Email '{clienteAtualizado.GetEmail()}' já está em uso.");
+				// 	}
+				// }
 				cliente.nome = clienteAtualizado.nome;
 				cliente.email = clienteAtualizado.email;
+				cliente.password = clienteAtualizado.password;
 				basePetLovers.SaveChanges();
 				return "cliente atualizado";
 			});
