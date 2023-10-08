@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 
 namespace PetLovers
 {
+	
     class Cliente
     {
         public int id { get; set; }
@@ -38,6 +39,13 @@ namespace PetLovers
 		{
 			return email;
 		}
+
+		public bool Authenticate(string email, string providedPassword)
+        {
+            // Verify the provided password by hashing and comparing it with the stored hash
+            string providedPasswordHash = GerarHash(providedPassword);
+            return e == email && p == providedPasswordHash;
+        }
 		
 		
     }
@@ -54,6 +62,9 @@ namespace PetLovers
         public string? email { get; set; }
     }
 
+	
+
+
     class BasePetLovers : DbContext
 	{
 		public BasePetLovers(DbContextOptions options) : base(options)
@@ -65,6 +76,58 @@ namespace PetLovers
 		public DbSet<Entregador> Entregadores { get; set; } = null!;
 
 	}
+
+	class Authenticator
+    {
+        private readonly BasePetLovers dbContext;
+
+        public Authenticator(BasePetLovers dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
+        public bool AuthenticateCliente(string email, string password)
+        {
+            var cliente = dbContext.Clientes.FirstOrDefault(c => c.email == email);
+
+            if (cliente != null)
+            {
+                // Compare the provided password with the stored hashed password
+                return cliente.Authenticate(email, password);
+            }
+
+            return false;
+        }
+
+        public bool AuthenticatePetShop(string email, string password)
+        {
+            var petShop = dbContext.PetShops.FirstOrDefault(p => p.email == email);
+
+            if (petShop != null)
+            {
+                // Compare the provided password with the stored hashed password
+                return petShop.Authenticate(email, password);
+            }
+
+            return false;
+        }
+
+        public bool AuthenticateEntregador(string email, string password)
+        {
+            var entregador = dbContext.Entregadores.FirstOrDefault(e => e.email == email);
+
+            if (entregador != null)
+            {
+                // Compare the provided password with the stored hashed password
+                return entregador.Authenticate(email, password);
+            }
+
+            return false;
+        }
+    }
+
+
+
 
     class Sistema
     {
@@ -84,7 +147,7 @@ namespace PetLovers
 			});
 			
 			// listar cliente especifico (por id)
-			app.MapGet("/cliente/{id}", (BasePetLovers basePetLovers, string id) => {
+			app.MapGet("/cliente/{id}", (BasePetLovers basePetLovers, int id) => {
 				return basePetLovers.Clientes.Find(id);
 			});
 
@@ -140,7 +203,7 @@ namespace PetLovers
 			});
 			
 			// listar petshop especifico (por id)
-			app.MapGet("/petshop/{id}", (BasePetLovers basePetLovers, string id) => {
+			app.MapGet("/petshop/{id}", (BasePetLovers basePetLovers, int id) => {
 				return basePetLovers.PetShops.Find(id);
 			});
 
@@ -178,7 +241,7 @@ namespace PetLovers
 			});
 			
 			// listar entregador especifico (por id)
-			app.MapGet("/entregador/{id}", (BasePetLovers basePetLovers, string id) => {
+			app.MapGet("/entregador/{id}", (BasePetLovers basePetLovers, int id) => {
 				return basePetLovers.Entregadores.Find(id);
 			});
 

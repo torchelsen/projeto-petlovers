@@ -7,7 +7,7 @@ Este é um projeto backend em C# que utiliza o framework ASP.NET Core. Ele forne
 Certifique-se de ter o seguinte software instalado em sua máquina antes de prosseguir:
 
 - [ASP.NET Core SDK](https://dotnet.microsoft.com/download) (versão 6.0 ou superior)
-
+- EntityFramework
 
 ## Configuração do Projeto
 
@@ -28,4 +28,4 @@ Para executar o projeto, utilize o seguinte comando:
 dotnet run
 ```
 
-O serviço web API estará disponível em `http://localhost:5000` por padrão.
+O serviço web API estará disponível em `http://localhost:3000` por padrão.
