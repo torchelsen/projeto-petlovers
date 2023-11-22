@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>PetLovers</title>
+
+		<style>
+			body {
+				font-family: 'Arial', sans-serif;
+				background-color: #3c726b;
+				width: 100%;
+				margin: auto;
+				padding: 0;
+				font-size: 13px;
+				
+			}
+
+			h1 {
+				font-size: 20px;
+			}
+	
+			.container {
+				max-width: 1200px;
+				margin: 20px auto;
+				padding: 20px;
+				
+				display: flex; /* Use flexbox para organizar os formulários lado a lado */
+				justify-content: space-between; /* Distribui os formulários uniformemente */
+				
+			}
+	
+			.form-section {
+				flex: 1; /* Permite que a seção cresça para ocupar o espaço disponível */
+				margin-right: 20px; /* Adiciona um espaçamento entre os formulários */
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				border-radius: 10px;
+				background-color: #fff;
+				padding: 10px;
+				box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+			}
+	
+			.form-section button {
+				width: 100%;
+				padding: 10px;
+				background-color: #56a79c;
+				color: #fff;
+				border: none;
+				cursor: pointer;
+				border-radius: 5px;
+			}
+	
+			.form-section button:hover {
+				background-color: #61c2b5;
+			}
+	
+			form {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				display: none;
+			}
+	
+			form input, form select {
+				width: 100%;
+				padding: 10px;
+				margin: 8px 0;
+				box-sizing: border-box;
+			}
+	
+			form button {
+				width: 100%;
+				padding: 10px;
+				background-color: #56a79c;
+				color: #fff;
+				border: none;
+				cursor: pointer;
+				border-radius: 5px;
+			}
+	
+			form button:hover {
+				background-color: #56a79c;
+			}
+	
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 20px;
+				border-radius: 5px;
+			}
+	
+			th, td {
+				border: 1px solid #ddd;
+				padding: 12px;
+				text-align: left;
+			}
+	
+			th {
+				background-color: #56a79c;
+				color: #fff;
+			}
+	
+			.edit-btn, .delete-btn {
+				cursor: pointer;
+				margin-right: 5px;
+				color: #56a79c;
+			}
+	
+			.delete-btn {
+				color: #dc3545;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+
+			<div class="form-section">
+				<h1>Consultas</h1>
+				<button onclick="mostrarFormularioConsulta()">Cadastrar Nova Consulta</button>
+				<form id="formularioConsulta">
+					<select id="nomeClienteConsulta" placeholder="Nome do Cliente">
+					</select>
+					<select id="nomePetshopConsulta" placeholder="Nome do Petshop">
+					</select>
+					<select id="horarioConsulta" placeholder="Horários do Petshop">
+					</select>
+					<button onclick="cadastrarConsulta()">Cadastrar</button>
+				</form>
+				<table id="tabelaConsultas">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome Cliente</th>
+						<th>Nome Petshop</th>
+						<th>Horário</th>
+						<th>Ações</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="container">
+
+			<div class="form-section">
+				<h1>Clientes</h1>
+				<button onclick="mostrarFormularioCliente()">Cadastrar Novo Cliente</button>
+				<form id="formularioCliente">
+					<input id="nomeCliente" type="text" placeholder="Nome"/>
+					<input id="emailCliente" type="text" placeholder="Email"/>
+					<input id="senhaCliente" type="password" placeholder="Senha"/>
+					<button onclick="cadastrarCliente()">Cadastrar</button>
+				</form>
+				<table id="tabelaClientes">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Email</th>
+						<th>Ações</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<form id="formEdicaoCliente">
+					<h2>Editar Cliente</h2>
+					<input id="editNomeCliente" type="text" placeholder="Nome"/>
+					<input id="editEmailCliente" type="text" placeholder="Email"/>
+					<input id="editPasswordCliente" type="text" placeholder="Password"/>
+					<button onclick="salvarEdicaoCliente()">Salvar Edição</button>
+				</form>
+			</div>
+
+			<div class="form-section">
+				<h1>Petshops</h1>
+				<button onclick="mostrarFormularioPetshop()">Cadastrar Novo Petshop</button>
+				<form id="formularioPetshop">
+					<input id="nomePetshop" type="text" placeholder="Nome"/>
+					<input id="emailPetshop" type="text" placeholder="Email"/>
+					<button onclick="cadastrarPetshop()">Cadastrar</button>
+				</form>
+				<table id="tabelaPetshops">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Email</th>
+						<th>Ações</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<form id="formEdicaoPetshop">
+					<h2>Editar Petshop</h2>
+					<input id="editNomePetshop" type="text" placeholder="Nome"/>
+					<input id="editEmailPetshop" type="text" placeholder="Email"/>
+					<button onclick="salvarEdicaoPetshop()">Salvar Edição</button>
+				</form>
+			</div>
+
+			<div class="form-section">
+				<h1>Entregadores</h1>
+				<button onclick="mostrarFormularioEntregador()">Cadastrar Novo Entregador</button>
+		
+				<form id="formularioEntregador">
+					<input id="nomeEntregador" type="text" placeholder="Nome"/>
+					<input id="emailEntregador" type="text" placeholder="Email"/>
+					<button onclick="cadastrarEntregador()">Cadastrar</button>
+				</form>
+				<table id="tabelaEntregadores">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>Nome</th>
+						<th>Email</th>
+						<th>Ações</th>
+					</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<form id="formEdicaoEntregador">
+					<h2>Editar Petshop</h2>
+					<input id="editNomeEntregador" type="text" placeholder="Nome"/>
+					<input id="editEmailEntregador" type="text" placeholder="Email"/>
+					<button onclick="salvarEdicaoEntregador()">Salvar Edição</button>
+				</form>
+			</div>
+		</div>
+
+		<script>
+			let url = "http://localhost:3000"
+			let idClienteEmEdicao;
+			let idPetshopEmEdicao;
+			let idEntregadorEmEdicao;
+			let idConsultaEmEdicao;
+			var clientes = [];
+			var petshops = [];
+
+			
+			//CLIENTES
+			function mostrarFormularioCliente() {
+				var formulario = document.getElementById("formularioCliente");
+				formulario.style.display = "flex";
+			}
+		
+			function cadastrarCliente() 
+			{
+				var nome = document.getElementById("nomeCliente").value;
+				var email = document.getElementById("emailCliente").value;
+				var senha = document.getElementById("senhaCliente").value;
+	
+				var cliente = {
+					Nome: nome,
+					Email: email,
+					Password: senha
+				};
+
+				fetch(url + '/cliente', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(cliente)
+				})
+				.then(response => response.json())
+				.then(data => {
+					// Trate a resposta do backend conforme necessário
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Erro ao cadastrar cliente:', error);
+				});
+				atualizarTabelaClientes();
+			}
+
+			function editarCliente(id) {
+				// Lógica de busca do cliente pelo ID e preenchimento do formulário de edição (simulado aqui)
+				fetch(url + `/cliente/${id}`)
+					.then(response => response.json())
+					.then(cliente => {
+						// Armazene o ID do cliente em edição
+						idClienteEmEdicao = cliente.id;
+
+						// Preencha o formulário de edição com os dados do cliente
+						document.getElementById("editNomeCliente").value = cliente.nome;
+						document.getElementById("editEmailCliente").value = cliente.email;
+						document.getElementById("editPasswordCliente").value = cliente.password;
+
+
+						// Exiba o formulário de edição
+						document.getElementById("formEdicaoCliente").style.display = "block";
+					})
+					.catch(error => console.error('Erro ao buscar cliente para edição:', error));
+			}
+
+			function salvarEdicaoCliente() {
+				var idCliente = idClienteEmEdicao;
+			
+				if (!idCliente) {
+					console.error('ID do cliente em edição não encontrado.');
+					return;
+				}
+			
+				let clienteEditado = {
+					Nome: document.getElementById("editNomeCliente").value,
+					Email: document.getElementById("editEmailCliente").value,
+					Password: document.getElementById("editPasswordCliente").value
+				};
+			
+				fetch(url + `/cliente/${idCliente}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(clienteEditado)
+				})
+					.then(response => {
+						if (response.ok) {
+							return response.json();
+						} else {
+							throw new Error('Erro ao salvar edição do cliente');
+						}
+					})
+					.then(data => {
+						console.log(data);
+						// Após salvar, você pode ocultar o formulário de edição e atualizar a tabela
+						document.getElementById("formEdicaoCliente").style.display = "none";
+						atualizarTabelaClientes();
+					})
+					.catch(error => console.error(error));
+			}
+			
+			function excluirCliente(id) {
+				// Lógica de exclusão de cliente (simulado aqui)
+				fetch(url + `/cliente/${id}`, {
+					method: 'DELETE'
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					// Após excluir, você pode chamar uma função para atualizar a tabela
+					atualizarTabelaClientes();
+				})
+				.catch(error => console.error('Erro ao excluir cliente:', error));
+			}
+		
+			function atualizarTabelaClientes() {
+				// Lógica para buscar os clientes do backend e atualizar a tabela (simulado aqui)
+				var tabela = document.getElementById("tabelaClientes").getElementsByTagName('tbody')[0];
+				tabela.innerHTML = "";
+		
+				// Simulação de dados, substitua isso com sua lógica de busca de clientes
+				fetch(url + '/cliente')
+					.then(response => response.json())
+					.then(data => {
+						clientes = data;
+						console.log('Clientes recebidos:', clientes);
+						clientes.forEach(function(cliente) {
+							var row = tabela.insertRow();
+							var cellId = row.insertCell(0);
+							var cellNome = row.insertCell(1);
+							var cellEmail = row.insertCell(2);
+							var cellAcoes = row.insertCell(3);
+		
+							cellId.innerHTML = cliente.id;
+							cellNome.innerHTML = cliente.nome;
+							cellEmail.innerHTML = cliente.email;
+		
+							var editBtn = document.createElement("span");
+							editBtn.className = "edit-btn";
+							editBtn.innerHTML = "Editar";
+							editBtn.onclick = function() {
+								editarCliente(cliente.id);
+							};
+		
+							var deleteBtn = document.createElement("span");
+							deleteBtn.className = "delete-btn";
+							deleteBtn.innerHTML = "Excluir";
+							deleteBtn.onclick = function() {
+								excluirCliente(cliente.id);
+							};
+		
+							cellAcoes.appendChild(editBtn);
+							cellAcoes.appendChild(deleteBtn);
+						});
+					})
+					.catch(error => console.error('Erro ao buscar clientes:', error));
+			}
+	
+			//PETSHOPS
+			function mostrarFormularioPetshop() {
+				var formulario = document.getElementById("formularioPetshop");
+				formulario.style.display = "flex";
+			}
+
+			function cadastrarPetshop() 
+			{
+				var nome = document.getElementById("nomePetshop").value;
+				var email = document.getElementById("emailPetshop").value;
+	
+				var petshop = {
+					Nome: nome,
+					Email: email
+				};
+
+				fetch(url + '/petshop', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(petshop)
+				})
+				.then(response => response.json())
+				.then(data => {
+					// Trate a resposta do backend conforme necessário
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Erro ao cadastrar petshop:', error);
+				});
+				atualizarTabelaPetshops();
+			}
+
+			function editarPetshop(id) {
+				// Lógica de busca do petshop pelo ID e preenchimento do formulário de edição (simulado aqui)
+				fetch(url + `/petshop/${id}`)
+					.then(response => response.json())
+					.then(petshop => {
+						// Armazene o ID do petshop em edição
+						idPetshopEmEdicao = petshop.id;
+
+						// Preencha o formulário de edição com os dados do petshop
+						document.getElementById("editNomePetshop").value = petshop.nome;
+						document.getElementById("editEmailPetshop").value = petshop.email;
+
+
+						// Exiba o formulário de edição
+						document.getElementById("formEdicaoPetshop").style.display = "block";
+					})
+					.catch(error => console.error('Erro ao buscar petshop para edição:', error));
+			}
+
+			function salvarEdicaoPetshop() {
+				var idPetshop = idPetshopEmEdicao;
+			
+				if (!idPetshop) {
+					console.error('ID do petshop em edição não encontrado.');
+					return;
+				}
+			
+				let petshopEditado = {
+					Nome: document.getElementById("editNomePetshop").value,
+					Email: document.getElementById("editEmailPetshop").value
+				};
+			
+				fetch(url + `/petshop/${idPetshop}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(petshopEditado)
+				})
+					.then(response => {
+						if (response.ok) {
+							return response.json();
+						} else {
+							throw new Error('Erro ao salvar edição do petshop');
+						}
+					})
+					.then(data => {
+						console.log(data);
+						// Após salvar, você pode ocultar o formulário de edição e atualizar a tabela
+						document.getElementById("formEdicaoPetshop").style.display = "none";
+						atualizarTabelaPetshops();
+					})
+					.catch(error => console.error(error));
+			}
+			
+			function excluirPetshop(id) {
+				// Lógica de exclusão de petshops (simulado aqui)
+				fetch(url + `/petshop/${id}`, {
+					method: 'DELETE'
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					// Após excluir, você pode chamar uma função para atualizar a tabela
+					atualizarTabelaPetshops();
+				})
+				.catch(error => console.error('Erro ao excluir petshop:', error));
+			}
+		
+			function atualizarTabelaPetshops() {
+				// Lógica para buscar os clientes do backend e atualizar a tabela (simulado aqui)
+				var tabela = document.getElementById("tabelaPetshops").getElementsByTagName('tbody')[0];
+				tabela.innerHTML = "";
+		
+				fetch(url + '/petshop')
+					.then(response => response.json())
+					.then(data => {
+						petshops = data;
+						console.log('Petshops recebidos:', petshops);
+						petshops.forEach(function(petshop) {
+							var row = tabela.insertRow();
+							var cellId = row.insertCell(0);
+							var cellNome = row.insertCell(1);
+							var cellEmail = row.insertCell(2);
+							var cellAcoes = row.insertCell(3);
+		
+							cellId.innerHTML = petshop.id;
+							cellNome.innerHTML = petshop.nome;
+							cellEmail.innerHTML = petshop.email;
+		
+							var editBtn = document.createElement("span");
+							editBtn.className = "edit-btn";
+							editBtn.innerHTML = "Editar";
+							editBtn.onclick = function() {
+								editarPetshop(petshop.id);
+							};
+		
+							var deleteBtn = document.createElement("span");
+							deleteBtn.className = "delete-btn";
+							deleteBtn.innerHTML = "Excluir";
+							deleteBtn.onclick = function() {
+								excluirPetshop(petshop.id);
+							};
+		
+							cellAcoes.appendChild(editBtn);
+							cellAcoes.appendChild(deleteBtn);
+						});
+					})
+					.catch(error => console.error('Erro ao buscar petshops:', error));
+			}
+
+			//ENTREGADORES
+			function mostrarFormularioEntregador() {
+				var formulario = document.getElementById("formularioEntregador");
+				formulario.style.display = "flex";
+			}
+
+			function cadastrarEntregador() 
+			{
+				var nome = document.getElementById("nomeEntregador").value;
+				var email = document.getElementById("emailEntregador").value;
+	
+				var entregador = {
+					Nome: nome,
+					Email: email
+				};
+
+				fetch(url + '/entregador', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(entregador)
+				})
+				.then(response => response.json())
+				.then(data => {
+					// Trate a resposta do backend conforme necessário
+					console.log(data);
+				})
+				.catch(error => {
+					console.error('Erro ao cadastrar entregador:', error);
+				});
+				atualizarTabelaEntregadores();
+			}
+
+			function editarEntregador(id) {
+				// Lógica de busca do petshop pelo ID e preenchimento do formulário de edição (simulado aqui)
+				fetch(url + `/entregador/${id}`)
+					.then(response => response.json())
+					.then(entregador => {
+						// Armazene o ID do entregador em edição
+						idEntregadorEmEdicao = entregador.id;
+
+						// Preencha o formulário de edição com os dados do entregador
+						document.getElementById("editNomeEntregador").value = entregador.nome;
+						document.getElementById("editEmailEntregador").value = entregador.email;
+
+						// Exiba o formulário de edição
+						document.getElementById("formEdicaoEntregador").style.display = "block";
+					})
+					.catch(error => console.error('Erro ao buscar entregador para edição:', error));
+			}
+
+			function salvarEdicaoEntregador() {
+				var idEntregador = idEntregadorEmEdicao;
+			
+				if (!idEntregador) {
+					console.error('ID do entregador em edição não encontrado.');
+					return;
+				}
+			
+				let entregadorEditado = {
+					Nome: document.getElementById("editNomeEntregador").value,
+					Email: document.getElementById("editEmailEntregador").value
+				};
+			
+				fetch(url + `/entregador/${idEntregador}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(entregadorEditado)
+				})
+					.then(response => {
+						if (response.ok) {
+							return response.json();
+						} else {
+							throw new Error('Erro ao salvar edição do entregador');
+						}
+					})
+					.then(data => {
+						console.log(data);
+						// Após salvar, você pode ocultar o formulário de edição e atualizar a tabela
+						document.getElementById("formEdicaoEntregador").style.display = "none";
+						atualizarTabelaEntregadores();
+					})
+					.catch(error => console.error(error));
+			}
+			
+			function excluirEntregador(id) {
+				// Lógica de exclusão de petshops (simulado aqui)
+				fetch(url + `/entregador/${id}`, {
+					method: 'DELETE'
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					// Após excluir, você pode chamar uma função para atualizar a tabela
+					atualizarTabelaEntregadores();
+				})
+				.catch(error => console.error('Erro ao excluir entregador:', error));
+			}
+		
+			function atualizarTabelaEntregadores() {
+				// Lógica para buscar os entregadores do backend e atualizar a tabela (simulado aqui)
+				var tabela = document.getElementById("tabelaEntregadores").getElementsByTagName('tbody')[0];
+				tabela.innerHTML = "";
+		
+				fetch(url + '/entregador')
+					.then(response => response.json())
+					.then(entregadores => {
+						console.log('Entregadores recebidos:', entregadores);
+						entregadores.forEach(function(entregador) {
+							var row = tabela.insertRow();
+							var cellId = row.insertCell(0);
+							var cellNome = row.insertCell(1);
+							var cellEmail = row.insertCell(2);
+							var cellAcoes = row.insertCell(3);
+		
+							cellId.innerHTML = entregador.id;
+							cellNome.innerHTML = entregador.nome;
+							cellEmail.innerHTML = entregador.email;
+		
+							var editBtn = document.createElement("span");
+							editBtn.className = "edit-btn";
+							editBtn.innerHTML = "Editar";
+							editBtn.onclick = function() {
+								editarEntregador(entregador.id);
+							};
+		
+							var deleteBtn = document.createElement("span");
+							deleteBtn.className = "delete-btn";
+							deleteBtn.innerHTML = "Excluir";
+							deleteBtn.onclick = function() {
+								excluirEntregador(entregador.id);
+							};
+		
+							cellAcoes.appendChild(editBtn);
+							cellAcoes.appendChild(deleteBtn);
+						});
+					})
+					.catch(error => console.error('Erro ao buscar entregadores:', error));
+			}
+
+			//CONSULTAS
+			function mostrarFormularioConsulta() {
+				var formulario = document.getElementById("formularioConsulta");
+				formulario.style.display = "flex";
+
+				// Carregar clientes
+				fetch(url + '/cliente')
+					.then(response => response.json())
+					.then((clientes) => {
+						let selectClientes = document.getElementById('nomeClienteConsulta');
+						selectClientes.innerHTML = '';
+
+						// Adiciona options ao elemento <select>
+						clientes.forEach(function (cliente) {
+							let option = document.createElement('option');
+							option.text = cliente.nome; // Certifique-se de ajustar o campo conforme a estrutura do objeto cliente
+							selectClientes.add(option);
+						});
+					});
+
+				// Carregar pet shops
+				fetch(url + '/petshop')
+					.then(response => response.json())
+					.then((petshops) => {
+						let selectPetshops = document.getElementById('nomePetshopConsulta');
+						selectPetshops.innerHTML = '';
+
+						// Adiciona options ao elemento <select>
+						petshops.forEach(function (petshop) {
+							let option = document.createElement('option');
+							option.text = petshop.nome;
+							selectPetshops.add(option);
+						});
+					});
+
+					var selectHorarios = document.getElementById("horarioConsulta");
+					selectHorarios.innerHTML = "";
+
+					for (var i = 8; i <= 18; i++) {
+						var dataHora = new Date();
+						dataHora.setHours(i, 0, 0, 0);
+
+						var option = document.createElement("option");
+						var dataHora = new Date();
+						dataHora.setHours(i, 0, 0, 0);
+						
+						// Ajuste para o fuso horário local antes de enviar ao backend
+						var adjustedTime = new Date(dataHora.getTime() - dataHora.getTimezoneOffset() * 60000);
+						
+						option.value = adjustedTime.toISOString();
+						option.text = dataHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+						selectHorarios.add(option);
+					}
+			}
+
+			
+			function cadastrarConsulta() {
+				var nomeCliente = document.getElementById("nomeClienteConsulta").value;
+				var nomePetshop = document.getElementById("nomePetshopConsulta").value;
+				var horario = document.getElementById("horarioConsulta").value;
+			
+				// Suponho que você tenha os IDs do Cliente e do PetShop disponíveis no frontend
+				var clienteId = obterClienteIdPorNome(nomeCliente); // Implemente a lógica real para obter o ID
+				var petShopId = obterPetShopIdPorNome(nomePetshop); // Implemente a lógica real para obter o ID
+			
+				if (!clienteId || !petShopId) {
+					console.error('IDs do cliente ou do petshop não encontrados.');
+					return;
+				}
+			
+				var consulta = {
+					ClienteId: clienteId,
+					PetShopId: petShopId,
+					HorarioConsulta: horario
+				};
+			
+				fetch(url + '/consulta', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(consulta)
+				})
+				.then(response => {
+					if (response.ok) {
+						console.log('Consulta adicionada com sucesso');
+						atualizarTabelaConsultas();
+					} else {
+						console.error('Erro ao cadastrar consulta. Status:', response.status);
+						if (response.status === 409) { // Código HTTP 409 indica conflito, você pode ajustar conforme necessário
+							alert('O horário selecionado não está disponível. Por favor, escolha outro horário.');
+						}
+					}
+				})
+				.catch(error => {
+					console.error('Erro ao cadastrar consulta:', error);
+					alert('Ocorreu um erro ao cadastrar a consulta. Por favor, tente novamente.');
+				});
+			}
+			
+			
+			
+			function excluirConsulta(id) {
+				fetch(url + `/consulta/${id}`, {
+					method: 'DELETE'
+				})
+				.then(response => {
+					if (response.ok) {
+						console.log('Consulta excluída com sucesso');
+						atualizarTabelaConsultas();
+					} else {
+						console.error('Erro ao excluir consulta. Status:', response.status);
+					}
+				})
+				.catch(error => console.error('Erro ao excluir consulta:', error));
+			}
+
+		
+			function atualizarTabelaConsultas() {
+				var tabela = document.getElementById("tabelaConsultas").getElementsByTagName('tbody')[0];
+				tabela.innerHTML = "";
+			
+				fetch(url + '/consulta')
+					.then(response => response.json())
+					.then(consultas => {
+						console.log('Consultas recebidas:', consultas);
+						consultas.forEach(function (consulta) {
+							console.log('Consulta recebida:', consulta);
+							var row = tabela.insertRow();
+							var cellId = row.insertCell(0);
+							var cellNomeCliente = row.insertCell(1);
+							var cellNomePetShop = row.insertCell(2);
+							var cellHorarioConsulta = row.insertCell(3);
+							var cellAcoes = row.insertCell(4);
+				
+							cellId.innerHTML = consulta.id;
+							cellNomeCliente.innerHTML = obterNomeClientePorId(consulta.clienteId);
+							cellNomePetShop.innerHTML = obterNomePetShopPorId(consulta.petShopId);
+				
+							// Formatando o horário
+							var dataHoraConsulta = new Date(consulta.horarioConsulta);
+							var formatoDataHora = new Intl.DateTimeFormat('pt-BR', {
+								weekday: 'long',
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+								hour: '2-digit',
+								minute: '2-digit',
+								hour12: false
+							});
+							var horarioFormatado = formatoDataHora.format(dataHoraConsulta);
+							cellHorarioConsulta.innerHTML = horarioFormatado;
+				
+							var deleteBtn = document.createElement("span");
+							deleteBtn.className = "delete-btn";
+							deleteBtn.innerHTML = "Excluir";
+							deleteBtn.onclick = function () {
+								excluirConsulta(consulta.id);
+							};
+				
+							cellAcoes.appendChild(deleteBtn);
+						});
+					})}
+					
+			function obterNomeClientePorId(clienteId) {
+				var cliente = clientes.find(cliente => cliente.id === clienteId);
+				return cliente ? cliente.nome : null;
+			}
+			function obterNomePetShopPorId(petShopId) {
+				var petShop = petshops.find(petshop => petshop.id === petShopId);
+				return petShop ? petShop.nome : null;
+			}
+											
+			function obterClienteIdPorNome(nomeCliente) {
+				var cliente = clientes.find(cliente => cliente.nome === nomeCliente);
+				return cliente ? cliente.id : null;
+			}
+			function obterPetShopIdPorNome(nomePetshop) {
+				var petshop = petshops.find(petshop => petshop.nome === nomePetshop);
+				return petshop ? petshop.id : null;
+			}
+
+			atualizarTabelaClientes();
+			atualizarTabelaPetshops();
+			atualizarTabelaEntregadores();
+			atualizarTabelaConsultas();
+		</script>
+	</body>
+</html>
